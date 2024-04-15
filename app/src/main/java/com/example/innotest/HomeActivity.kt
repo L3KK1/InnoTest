@@ -27,7 +27,7 @@ class HomeActivity : AppCompatActivity() {
                     // Обработка нажатия на элемент "Home"
                     return@setOnItemSelectedListener true
                 }
-                R.id.fav_home -> {
+                R.id.menu_fav_home -> {
                     // Обработка нажатия на элемент "Favourite"
                     return@setOnItemSelectedListener true
                 }
