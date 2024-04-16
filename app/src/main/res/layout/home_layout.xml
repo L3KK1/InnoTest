@@ -48,7 +48,7 @@
         android:background="@color/white"
         app:menu="@menu/bottom_navigation_menu"
         app:itemIconSize="24dp"
-
+        app:itemIconTint="@android"
         app:labelVisibilityMode="unlabeled">
 
 
