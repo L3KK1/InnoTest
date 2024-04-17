@@ -21,6 +21,7 @@ class HomeActivity : AppCompatActivity() {
 
         setContentView(R.layout.home_layout)
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        bottomNavigationView.setItemIconTintList(null)
         bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.menu_home -> {
@@ -35,7 +36,7 @@ class HomeActivity : AppCompatActivity() {
             }
             return@setOnItemSelectedListener false
         }
-        //хуй щука  щщ
+
 
 
         //Get Featured Collections
