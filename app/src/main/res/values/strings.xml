@@ -3,4 +3,5 @@
     <string name="search">Search</string>
     <string name="home">Home</string>
     <string name="favourite">Favourite</string>
+    <string name="indicator">Indicator</string>
 </resources>
