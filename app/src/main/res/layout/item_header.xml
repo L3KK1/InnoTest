@@ -13,8 +13,9 @@
         android:textSize="14sp"
         android:textFontWeight="700"
         android:textColor="@android:color/black"
-        android:background="@drawable/header_background"
+        android:background="@drawable/header_background_selector"
         android:fontFamily="@font/mulish_font"
+
         />
 
 </LinearLayout>

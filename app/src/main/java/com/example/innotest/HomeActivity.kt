@@ -22,7 +22,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class HomeActivity : AppCompatActivity() {
+class HomeActivity : AppCompatActivity(), HeaderClickListener {
     private val apiKey = "PmxjA47BhjHLAH2p8kyAnKeilRRuSVLZhvbvVNxvGTguGVViBrRTq6Oi"
 
 
@@ -52,7 +52,7 @@ class HomeActivity : AppCompatActivity() {
             val indicatorLeftMargin = selectedItemCenterX + ((indicatorView.width / 3) * 2)
 
             // Set the top margin of the indicator to position it below the selected menu item
-            val indicatorTopMargin = selectedMenuItemView.bottom
+            val indicatorTopMargin = selectedMenuItemView.bottom - 20
 
             // Log the calculated coordinates
             Log.d("INDICATOR", "Selected item center X: $selectedItemCenterX")
@@ -74,7 +74,7 @@ class HomeActivity : AppCompatActivity() {
                 val firstMenuItem = bottomNavigationView.menu.findItem(R.id.menu_home)
                 moveIndicatorToMenuItem(firstMenuItem)
 
-                // Удаляем слушатель, чтобы он больше не вызывался
+                // Remove listener
                 rootView.viewTreeObserver.removeOnGlobalLayoutListener(this)
             }
         })
@@ -114,7 +114,7 @@ class HomeActivity : AppCompatActivity() {
                         val headers = it.map { collection -> collection.title }
                         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
                         val layoutManager = LinearLayoutManager(this@HomeActivity, LinearLayoutManager.HORIZONTAL, false)
-                        recyclerView.adapter = HeaderAdapter(it.map { collection -> collection.title }) // Установите адаптер здесь
+                        recyclerView.adapter = HeaderAdapter(it.map { collection -> collection.title }, this@HomeActivity) // Установите адаптер здесь
                         recyclerView.layoutManager = layoutManager
 
                         val spacingInPixels = resources.getDimensionPixelSize(R.dimen.spacing)
@@ -135,9 +135,10 @@ class HomeActivity : AppCompatActivity() {
 
     }
 
-    fun onHeaderClicked(header: String) {
+    override fun onHeaderClicked(header: String) {
         // Обработка клика на заголовок
-        Toast.makeText(this, "Clicked on header: $header", Toast.LENGTH_SHORT).show()
+        
+
     }
 
 

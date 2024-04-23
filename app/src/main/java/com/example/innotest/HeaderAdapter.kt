@@ -12,7 +12,8 @@ interface HeaderClickListener {
     fun onHeaderClicked(header: String)
 }
 
-class HeaderAdapter(private val headers: List<String>) : RecyclerView.Adapter<HeaderAdapter.ViewHolder>() {
+class HeaderAdapter(private val headers: List<String>,
+                    private val clickListener: HeaderClickListener) : RecyclerView.Adapter<HeaderAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_header, parent, false)
@@ -22,6 +23,10 @@ class HeaderAdapter(private val headers: List<String>) : RecyclerView.Adapter<He
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(headers[position])
         val header = headers[position]
+
+        holder.itemView.setOnClickListener {
+            clickListener.onHeaderClicked(header)
+        }
 
 
     }
