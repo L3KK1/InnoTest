@@ -18,19 +18,22 @@
         <activity android:name="HomeActivity"
             android:exported="true"
             android:theme="@style/AppTheme.FullScreen">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
 
-        <activity android:name="HomeFragment"
+        <activity android:name=".HomeFragment"
             android:exported="true"
             android:theme="@style/AppTheme.FullScreen">
-
         </activity>
+
+        <activity android:name="BookmarksFragment"
+            android:exported="true"
+            android:theme="@style/AppTheme.FullScreen">
+        </activity>
+
     </application>
 
 </manifest>
