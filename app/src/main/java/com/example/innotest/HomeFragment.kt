@@ -7,6 +7,7 @@ import com.example.innotest.R
 
 class HomeFragment : Fragment() {
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
