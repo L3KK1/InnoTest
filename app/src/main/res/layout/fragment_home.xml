@@ -38,4 +38,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/searchbar" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/photoRecyclerView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/recyclerView"
+        android:layout_marginTop="24dp"
+        app:layout_constraintStart_toStartOf="@id/recyclerView">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/searchbar"
+        app:layout_constraintStart_toStartOf="@id/searchbar"
+        android:background= "@color/red"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

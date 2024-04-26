@@ -7,28 +7,30 @@ import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Query
 
-interface PexelsApiService {
-    @GET("v1/search")
-    fun searchPhotos(
-        @Query("query") query: String,
-        @Query("per_page") perPage: Int,
-        @Query("page") page: Int,
-        @Header("Authorization") apiKey: String
-    ): Call<List<PhotoResponse>>
-}
 
-    interface PexelsService {
-        @GET("https://api.pexels.com/v1/collections/featured")
-        fun getFeaturedCollections(
-            @Header("Authorization") apiKey: String,
-            @Query("page") page: Int,
-            @Query("per_page") perPage: Int
-        ): Call<CollectionsResponse>
-    }
+interface PexelsService {
+    @GET("collections/featured")
+    fun getFeaturedCollections(
+        @Header("Authorization") apiKey: String,
+        @Query("page") page: Int,
+        @Query("per_page") perPage: Int
+    ): Call<CollectionsResponse>
+
+    @GET("curated")
+    fun getCuratedPhotos(
+        @Header("Authorization") apiKey: String,
+        @Query("per_page") perPage: Int,
+        @Query("page") page: Int
+    ): Call<PhotosResponse>
+}
+    data class PhotosResponse(
+        val photos: List<Photo>
+    )
 
     data class CollectionsResponse(
         val collections: List<Collection>
     )
+
     data class Collection(
         val id: String ,
         val title: String,
@@ -63,6 +65,21 @@ interface PexelsApiService {
         val small: String,
         val tiny: String
 )
+data class Photo(
+    val id: Int,
+    val width: Int,
+    val height: Int,
+    val url: String,
+    val photographer: String,
+    val photographer_url: String,
+    val photographer_id: Int,
+    val avg_color: String,
+    val src: Src,
+    val alt: String
+
+)
+
+
 
     object PexelsApi {
         private const val BASE_URL = "https://api.pexels.com/v1/"
