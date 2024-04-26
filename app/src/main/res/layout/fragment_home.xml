@@ -2,9 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/constraint_layout"
+    android:id="@+id/fragment_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <EditText
         android:id="@+id/searchbar"
@@ -45,8 +45,8 @@
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@id/recyclerView"
         android:layout_marginTop="24dp"
-        app:layout_constraintStart_toStartOf="@id/recyclerView">
-
+        app:layout_constraintStart_toStartOf="@id/recyclerView"
+        >
     </androidx.recyclerview.widget.RecyclerView>
 
     <ProgressBar

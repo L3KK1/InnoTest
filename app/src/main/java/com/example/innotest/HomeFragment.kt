@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.launch
@@ -29,6 +30,7 @@ class HomeFragment : Fragment(), HeaderClickListener {
         recyclerView = view.findViewById(R.id.recyclerView)
         val layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         recyclerView.layoutManager = layoutManager
+
 
         // Показать заголовки
         loadFeaturedCollections()
@@ -59,7 +61,9 @@ class HomeFragment : Fragment(), HeaderClickListener {
                     }
                     val recyclerPhotoView = view?.findViewById<RecyclerView>(R.id.photoRecyclerView)
                     val photoLayoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+                    val photoGridManager = GridLayoutManager(requireContext(),2)
                     recyclerPhotoView?.layoutManager = photoLayoutManager
+                    recyclerPhotoView?.layoutManager = photoGridManager
                     val photoAdapter = PhotoRecyclerAdapter(photoUrls)
                     recyclerPhotoView?.adapter = photoAdapter
                     showLoadingIndicator(false)
