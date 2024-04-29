@@ -28,7 +28,9 @@ class HomeFragment : Fragment(), HeaderClickListener, PhotoClickListener {
     private lateinit var recyclerPhotoView: RecyclerView
     private lateinit var clearButton : Button
     private lateinit var horizontalProgressBar: ProgressBar
+    private lateinit var headers: List<String>
     private var photoClickListener: PhotoClickListener? = null
+    private var selectedHeaderPosition: Int = RecyclerView.NO_POSITION
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -78,13 +80,19 @@ class HomeFragment : Fragment(), HeaderClickListener, PhotoClickListener {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val query = s.toString()
-                if(query.isEmpty()){
+                if (query.isEmpty()) {
                     clearButton.visibility = View.INVISIBLE
                     loadCuratedPhotos()
                 } else {
                     clearButton.visibility = View.VISIBLE
                     searchPhotos(query)
                 }
+
+                // Убираем выделение заголовка после изменения текста в searchbar
+                selectedHeaderPosition = RecyclerView.NO_POSITION
+
+                // Обновляем внешний вид заголовков в RecyclerView
+                recyclerView.adapter?.notifyDataSetChanged()
             }
 
             override fun afterTextChanged(s: Editable?) {}
@@ -178,7 +186,7 @@ class HomeFragment : Fragment(), HeaderClickListener, PhotoClickListener {
                 if (response.isSuccessful) {
                     val collections = response.body()?.collections
                     collections?.let {
-                        val headers = it.map { collection -> collection.title }
+                        headers = it.map { collection -> collection.title }
                         val adapter = HeaderAdapter(headers, this@HomeFragment)
                         recyclerView.adapter = adapter
 
@@ -202,7 +210,11 @@ class HomeFragment : Fragment(), HeaderClickListener, PhotoClickListener {
     }
 
     override fun onHeaderClicked(header: String) {
-        // Обработка клика на заголовок
+        // Проверяем, содержится ли текст заголовка в тексте searchbar
+        if (searchbar.text.toString() != header) {
+            selectedHeaderPosition = RecyclerView.NO_POSITION
+        }
+        // Установка текста заголовка в searchbar
         searchbar.setText(header)
     }
 

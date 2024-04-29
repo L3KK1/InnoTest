@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class HomeActivity : AppCompatActivity(), HeaderClickListener, PhotoClickListener {
+class HomeActivity : AppCompatActivity(), HeaderClickListener, PhotoClickListener, BackButtonClickListener {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -110,10 +110,19 @@ class HomeActivity : AppCompatActivity(), HeaderClickListener, PhotoClickListene
         if (homeFragment != null) {
             val transaction = supportFragmentManager.beginTransaction()
             transaction.hide(homeFragment)
+
             transaction.commit()
         }
 
         replaceFragment(fragment)
+    }
+
+    override fun onBackButtonClicked() {
+        supportFragmentManager.popBackStack()
+        val indicatorView = findViewById<View>(R.id.indicator_view)
+        indicatorView.visibility = View.VISIBLE
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        bottomNavigationView.visibility = View.VISIBLE
     }
 
 }

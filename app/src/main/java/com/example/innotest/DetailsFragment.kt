@@ -1,5 +1,6 @@
 package com.example.innotest
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -14,6 +15,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.room.Room
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import kotlinx.coroutines.CoroutineScope
@@ -29,18 +32,24 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
+import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 
+interface BackButtonClickListener {
+    fun onBackButtonClicked()
+}
 
 class DetailsFragment: Fragment() {
 
 
-
+    private var backButtonClickListener: BackButtonClickListener? = null
     private var photoUrl: String? = null
     private var photoId: Int? = null
     private var authorName: String? = null
     lateinit var photographer_name: TextView
     lateinit var downloadButton: ImageButton
     lateinit var bookmarkButton: ImageButton
+    lateinit var backButton: ImageButton
     companion object {
         private const val ARG_PHOTO_URL = "photo_url"
         private const val ARG_PHOTO_ID = "photo_id"
@@ -52,6 +61,15 @@ class DetailsFragment: Fragment() {
             args.putInt(ARG_PHOTO_ID, photoId)
             fragment.arguments = args
             return fragment
+        }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is BackButtonClickListener) {
+            backButtonClickListener = context
+        } else {
+            throw RuntimeException("$context must implement BackButtonClickListener")
         }
     }
 
@@ -80,7 +98,13 @@ class DetailsFragment: Fragment() {
         photographer_name = view.findViewById(R.id.photographer_name)
         bookmarkButton = view.findViewById(R.id.bookmark_button)
         val db = context?.let { Room.databaseBuilder(it, AppDatabase::class.java, "image-database").build() }
-        val imageDao = db?.imageDao()
+
+        val imageDao = db!!.imageDao()
+
+        backButton = view.findViewById(R.id.return_button)
+        backButton.setOnClickListener{
+            backButtonClickListener?.onBackButtonClicked()
+        }
 
         photoUrl?.let { url ->
             bookmarkButton.setOnClickListener {
@@ -96,7 +120,7 @@ class DetailsFragment: Fragment() {
                                 val imageEntity =
                                     photoId?.let { it1 -> ImageEntity(it1, url, imageData) }
                                 if (imageEntity != null) {
-                                    imageDao?.insertImage(imageEntity)
+                                    imageDao.insertImage(imageEntity)
                                 }
                             }
                         }
@@ -107,6 +131,12 @@ class DetailsFragment: Fragment() {
                     })
             }
         }
+
+        val sharedViewModel: SharedViewModel by viewModels {
+            SharedViewModelFactory(imageDao)
+        }
+
+
 
         photoUrl?.let { url ->
              downloadButton = view.findViewById(R.id.download_button)
@@ -148,6 +178,7 @@ class DetailsFragment: Fragment() {
         photoUrl?.let { url ->
             Glide.with(this)
                 .load(url)
+                .transform(RoundedCorners(50))
                 .into(photoImageView)
 
             // Отправляем запрос к Pexels API для получения информации об авторе
@@ -172,6 +203,14 @@ class DetailsFragment: Fragment() {
                 }
             })
         }
+
+    }
+
+    fun getImageDao(): ImageDao {
+        val db = context?.let {
+            Room.databaseBuilder(it, AppDatabase::class.java, "image-database").build()
+        }
+            return db!!.imageDao()
 
     }
 
