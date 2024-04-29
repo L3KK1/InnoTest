@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    id ("kotlin-android")
+    id ("kotlin-kapt")
 }
 
 android {
@@ -54,4 +56,8 @@ dependencies {
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.0")
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.8.0")
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.8.0")
+    implementation ("androidx.room:room-runtime:2.4.0")
+    kapt ("androidx.room:room-compiler:2.4.0")
+
+
 }

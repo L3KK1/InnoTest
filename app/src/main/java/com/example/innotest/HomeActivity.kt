@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class HomeActivity : AppCompatActivity(), HeaderClickListener {
+class HomeActivity : AppCompatActivity(), HeaderClickListener, PhotoClickListener {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -90,10 +90,30 @@ class HomeActivity : AppCompatActivity(), HeaderClickListener {
     private fun replaceFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.frame, fragment)
+            .addToBackStack(null)
             .commit()
     }
+
 
     override fun onHeaderClicked(header: String) {
         // Обработка клика на заголовок
     }
+
+    override fun onPhotoClicked(url: String, id: Int) {
+        val fragment = DetailsFragment.newInstance(url, id)
+        val homeFragment = supportFragmentManager.findFragmentByTag("HomeFragment")
+        val indicatorView = findViewById<View>(R.id.indicator_view)
+        indicatorView.visibility = View.GONE
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        bottomNavigationView.visibility = View.GONE
+
+        if (homeFragment != null) {
+            val transaction = supportFragmentManager.beginTransaction()
+            transaction.hide(homeFragment)
+            transaction.commit()
+        }
+
+        replaceFragment(fragment)
+    }
+
 }

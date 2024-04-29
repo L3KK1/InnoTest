@@ -31,6 +31,7 @@ class HeaderAdapter(
 
         // Установка слушателя нажатия на элемент списка
         holder.itemView.setOnClickListener {
+            clickListener.onHeaderClicked(header)
             // Сохранение текущего выбранного элемента
             val previousSelectedPosition = selectedPosition
             selectedPosition = position
@@ -41,7 +42,7 @@ class HeaderAdapter(
             // Обновление внешнего вида текущего выбранного элемента
             notifyItemChanged(selectedPosition)
         }
-        //Завтрашний Вова,я тут убился и хуй пойми чо тут делать, разберись пж, нихуя не работает
+
         // Установка ресурса drawable фона элемента в соответствии с выбранным состоянием
         val drawable = if (selectedPosition == position) R.drawable.header_background_active else R.drawable.header_background
         val textColor = if (selectedPosition == position) R.color.white else R.color.black

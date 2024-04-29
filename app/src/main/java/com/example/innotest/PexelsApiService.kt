@@ -22,6 +22,18 @@ interface PexelsService {
         @Query("per_page") perPage: Int,
         @Query("page") page: Int
     ): Call<PhotosResponse>
+    @GET("https://api.pexels.com/v1/search")
+    fun searchPhotosByQuery(
+        @Header("Authorization") apiKey: String,
+        @Query("query") query: String,
+        @Query("page") page: Int,
+        @Query("per_page") perPage: Int
+    ): Call<PhotosResponse>
+
+    @GET("https://api.pexels.com/v1/photos/:id")
+    fun getPhotoById(
+        @Header("Authorization") apiKey: String,
+        @Query("id") id: Int): Call<Photo>
 }
     data class PhotosResponse(
         val photos: List<Photo>
